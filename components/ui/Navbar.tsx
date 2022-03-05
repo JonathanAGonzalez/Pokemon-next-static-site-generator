@@ -1,6 +1,7 @@
 import { Text, useTheme } from '@nextui-org/react';
 import Image from 'next/image';
-import Link from 'next/link';
+import NextLink from 'next/link';
+import { Link } from '@nextui-org/react';
 
 export const Navbar = () => {
   const { theme } = useTheme();
@@ -16,20 +17,26 @@ export const Navbar = () => {
         backgroundColor: theme?.colors.gray900.value,
       }}
     >
-      <Link href="/" passHref>
-        <Image
-          src="/images/logo.png"
-          alt="Icono de la aplicación"
-          width={150}
-          height={60}
-        />
-      </Link>
+      <NextLink href="/" passHref>
+        <Link>
+          <Image
+            src="/images/logo.png"
+            alt="Icono de la aplicación"
+            width={150}
+            height={60}
+          />
+        </Link>
+      </NextLink>
       <Text color="white" h3>
         Pokemon
       </Text>
-      <Text color="white" h3>
-        Favoritos{' '}
-      </Text>
+      <NextLink href="/favorites" passHref>
+        <Link>
+          <Text color="white" h3>
+            Favoritos{' '}
+          </Text>
+        </Link>
+      </NextLink>
     </div>
   );
 };

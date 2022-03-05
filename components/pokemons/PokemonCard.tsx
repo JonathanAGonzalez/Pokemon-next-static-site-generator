@@ -34,12 +34,12 @@ const PokemonCard: FC<Props> = ({ pokemons }) => {
             >
               <Col>
                 <Text
-                  size={12}
+                  size={30}
                   weight="bold"
                   transform="uppercase"
-                  color="#9E9E9E"
+                  color="white"
                 >
-                  #{id}
+                  # {id}
                 </Text>
               </Col>
             </Card.Header>
@@ -49,7 +49,7 @@ const PokemonCard: FC<Props> = ({ pokemons }) => {
                 height={320}
                 width="100%"
                 alt={name}
-                objectFit="scale-down"
+                objectFit="inherit"
               />
             </Card.Body>
             <Card.Footer
