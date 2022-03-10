@@ -1,19 +1,13 @@
 import { Grid } from '@nextui-org/react';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
-import { NextPage } from 'next';
 import FavoritesCard from './FavoritesCard';
 
 interface Props {
-  favoritePokemons: [
-    {
-      id: number;
-      name: string;
-    }
-  ];
+  favoritePokemons: [{ id: number; name: string }];
 }
 
-const FavoritesPokemons: NextPage<Props> = ({ favoritePokemons }) => {
+const FavoritesPokemons: FC<Props> = ({ favoritePokemons }) => {
   const router = useRouter();
 
   const onFavoritesClicked = (name: number) => {

@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import FavoritesPokemons from '../../components/ui/FavoritesPokemons';
 
 const Favorites = () => {
-  const [favoritePokemons, setFavoritePokemons] = useState<number[]>([]);
+  const [favoritePokemons, setFavoritePokemons] = useState<any>([]);
 
   useEffect(() => {
     setFavoritePokemons(pokemons());
