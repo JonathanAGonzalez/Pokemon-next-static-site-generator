@@ -2,7 +2,6 @@ import { Card, Image, Text } from '@nextui-org/react';
 import { FC } from 'react';
 
 interface Props {
-  id: number;
   onFavoritesClicked: Function;
   pokemon: {
     name: string;
