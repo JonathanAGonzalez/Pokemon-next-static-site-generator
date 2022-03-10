@@ -1,22 +1,30 @@
-import { Text, useTheme } from '@nextui-org/react';
-import Image from 'next/image';
+import { Container, Text, useTheme } from '@nextui-org/react';
 import NextLink from 'next/link';
-import { Link } from '@nextui-org/react';
+import { Link, Image } from '@nextui-org/react';
+import { useState, useEffect } from 'react';
 
 export const Navbar = () => {
   const { theme } = useTheme();
+  const [favorites, setFavorites] = useState([]);
+  const existInLocal =
+    (typeof window !== 'undefined' && localStorage.getItem('Favorites')) ||
+    '[]';
+
+  const styles = {
+    display: 'flex',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: '1rem 1.2rem',
+    backgroundColor: theme?.colors.gray900.value,
+  };
+
+  useEffect(() => {
+    setFavorites(JSON.parse(existInLocal));
+  }, [existInLocal]);
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        width: '100%',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '1rem 1.2rem',
-        backgroundColor: theme?.colors.gray900.value,
-      }}
-    >
+    <div style={styles}>
       <NextLink href="/" passHref>
         <Link>
           <Image
@@ -28,12 +36,23 @@ export const Navbar = () => {
         </Link>
       </NextLink>
       <Text color="white" h3>
-        Pokemon
+        Static Site Generator NextJS
       </Text>
       <NextLink href="/favorites" passHref>
         <Link>
           <Text color="white" h3>
-            Favoritos{' '}
+            Favorites {favorites.length}
+            <Container display="flex">
+              {favorites.map(({ id, sprites: { front_default }, name }) => (
+                <Image
+                  key={id}
+                  src={front_default}
+                  width={15}
+                  height={15}
+                  alt={name}
+                />
+              ))}
+            </Container>
           </Text>
         </Link>
       </NextLink>

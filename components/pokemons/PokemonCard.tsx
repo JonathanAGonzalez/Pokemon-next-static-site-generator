@@ -10,20 +10,20 @@ interface Props {
 const PokemonCard: FC<Props> = ({ pokemons }) => {
   const router = useRouter();
 
-  const onClick = (id: number) => {
-    router.push(`/pokemon/${id}`);
+  const onClick = (name: number) => {
+    router.push(`/pokemon/${name}`);
   };
 
   return (
     <Grid.Container gap={2} justify="flex-start">
-      {pokemons.map(({ id, img, name }) => (
+      {pokemons.map(({ id, img, name }: any) => (
         <Grid xs={12} sm={6} md={2} key={id} justify="center">
           <Card
             cover
             css={{ w: '100%', p: 0 }}
             hoverable
             clickable
-            onClick={() => onClick(id)}
+            onClick={() => onClick(name)}
           >
             <Card.Header
               css={{

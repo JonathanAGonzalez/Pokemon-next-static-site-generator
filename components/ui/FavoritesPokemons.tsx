@@ -10,15 +10,18 @@ interface Props {
 const FavoritesPokemons: FC<Props> = ({ favoritePokemons }) => {
   const router = useRouter();
 
-  const onFavoritesClicked = (id: number) => {
-    router.push(`/pokemon/${id}`);
+  const onFavoritesClicked = (name: number) => {
+    router.push(`/pokemon/${name}`);
   };
 
   return (
     <Grid.Container gap={2} justify="flex-start">
-      {favoritePokemons.map((id: number) => (
-        <Grid key={id} xs={6} sm={3} md={2} xl={1}>
-          <FavoritesCard id={id} onFavoritesClicked={onFavoritesClicked} />
+      {favoritePokemons.map((pokemon) => (
+        <Grid key={pokemon.id} xs={6} sm={3} md={2} xl={1}>
+          <FavoritesCard
+            pokemon={pokemon}
+            onFavoritesClicked={onFavoritesClicked}
+          />
         </Grid>
       ))}
     </Grid.Container>

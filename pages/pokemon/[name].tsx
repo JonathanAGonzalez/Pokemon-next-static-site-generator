@@ -2,20 +2,20 @@ import { useState } from 'react';
 import { NextPage, GetStaticProps, GetStaticPaths } from 'next';
 import { Card, Grid, Image, Text, Button, Container } from '@nextui-org/react';
 import confetti from 'canvas-confetti';
-import { Pokemon } from '../../interfaces';
+import { Pokemon, PokemonListResponse } from '../../interfaces';
 import { Layout } from '../../components/layouts';
-import { onToggleFavorite, existInFavorites } from './../../utils';
-import pokeApi from '../../api/pokeApi';
+import { onToggleFavorite, existInFavorites } from '../../utils';
+import pokeApi from '../../api';
 interface Props {
   pokemon: Pokemon;
 }
 
-const DetailPokemon: NextPage<Props> = ({ pokemon }) => {
+const PokemonByName: NextPage<Props> = ({ pokemon }) => {
   const pokeInLocal = existInFavorites(pokemon.id);
   const [isInFavorites, setIsInFavorites] = useState(pokeInLocal);
 
   const handleToggleFavorite = () => {
-    onToggleFavorite(pokemon.id);
+    onToggleFavorite(pokemon);
     setIsInFavorites(!isInFavorites);
     if (isInFavorites) return;
 
@@ -100,15 +100,30 @@ const DetailPokemon: NextPage<Props> = ({ pokemon }) => {
             </Card.Body>
           </Card>
         </Grid>
+
+        <Grid xs={12}>
+          <Card>
+            <Text h1>Habilities</Text>
+            <Container display="flex">
+              {pokemon.abilities.map((ability) => (
+                <Grid key={ability.ability.name} xs={12} sm={4}>
+                  <Card color="gradient" css={{ width: '100%' }}>
+                    <Text transform="uppercase">{ability.ability.name}</Text>
+                  </Card>
+                </Grid>
+              ))}
+            </Container>
+          </Card>
+        </Grid>
       </Grid.Container>
     </Layout>
   );
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const { id } = params as { id: string };
+  const { name } = params as { name: string };
 
-  const { data } = await pokeApi.get<Pokemon>(`/pokemon/${id}`);
+  const { data } = await pokeApi.get<Pokemon>(`/pokemon/${name}`);
 
   return {
     props: {
@@ -118,14 +133,18 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async (ctx) => {
-  const pokemons151 = [...Array(151)].map((value, index) => ({
-    params: { id: `${index + 1}` },
+  const { data: pokemons } = await pokeApi.get(`/pokemon?limit=151`);
+
+  const namesPokemons: string[] = pokemons.results.map(({ name }: any) => ({
+    params: {
+      name,
+    },
   }));
 
   return {
-    paths: pokemons151,
+    paths: namesPokemons,
     fallback: false,
   };
 };
 
-export default DetailPokemon;
+export default PokemonByName;

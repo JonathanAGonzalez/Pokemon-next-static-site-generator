@@ -1,28 +1,26 @@
-const onToggleFavorite = (id: number) => {
-  let favorites: number[] = JSON.parse(
-    localStorage.getItem('Favorites') || '[]'
-  );
+const onToggleFavorite = (pokemon: any) => {
+  let favorites = JSON.parse(localStorage.getItem('Favorites') || '[]');
 
-  if (favorites.includes(id)) {
-    favorites = favorites.filter((fav) => fav !== id);
+  const existInLocal = favorites.some((poke: any) => poke.id === pokemon.id);
+
+  if (existInLocal) {
+    const filter = favorites.filter((poke: any) => poke.id !== pokemon.id);
+    localStorage.setItem('Favorites', JSON.stringify(filter));
+    return;
   } else {
-    favorites.push(id);
+    favorites.push(pokemon);
   }
-
   localStorage.setItem('Favorites', JSON.stringify(favorites));
 };
 
-const existInFavorites = (id: number) => {
+const existInFavorites = (idFav: number) => {
   if (typeof window === 'undefined') return false;
+  const favorites = JSON.parse(localStorage.getItem('Favorites') || '[]');
 
-  const favorites: number[] = JSON.parse(
-    localStorage.getItem('Favorites') || '[]'
-  );
-
-  return favorites.includes(id);
+  return favorites.some((pokemon: any) => pokemon.id === idFav);
 };
 
-const pokemons = (): number[] => {
+const pokemons = () => {
   return JSON.parse(localStorage.getItem('Favorites') || '[]');
 };
 
